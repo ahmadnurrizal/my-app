@@ -25,6 +25,19 @@ function App() {
     },
   ]);
 
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const toggleReminder = (id) => {
+    setTasks(
+      // for each loop
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      )
+    );
+  };
+
   return (
     <div className="App" style={{ marginLeft: 50 }}>
       <Header />
@@ -35,7 +48,12 @@ function App() {
       <p>am I learning now ? {status ? "YESS" : "NOO"}</p>
       <br />
       <h3>Tasks</h3>
-      <Tasks tasks={tasks} />
+      {/* if statement */}
+      {tasks.length > 0 ? (
+        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
+      ) : (
+        <h3>No Tasks</h3>
+      )}
     </div>
   );
 }
