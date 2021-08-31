@@ -1,9 +1,12 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 import { useState } from "react";
 function App() {
   const title = "learning react";
   const status = true;
+
+  const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -25,10 +28,21 @@ function App() {
     },
   ]);
 
+  // Add task
+  const addTask = (task) => {
+    // type task is object
+
+    const id = Math.floor(Math.random() * 1000) + 1;
+    const newTask = { id, ...task };
+    setTasks([...tasks, newTask]);
+  };
+
+  // Delete Task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  // Toggle Reminder
   const toggleReminder = (id) => {
     setTasks(
       // for each loop
@@ -40,7 +54,12 @@ function App() {
 
   return (
     <div className="App" style={{ marginLeft: 50 }}>
-      <Header />
+      <Header
+        onAdd={() => setShowAddTask(!showAddTask)}
+        showAdd={showAddTask}
+      />
+      {/* if statement without else, using && */}
+      {showAddTask && <AddTask onAdd={addTask} />}
       <h3>{title}</h3>
       <p>
         My name is Rzall,, <b>Happy Hacking</b>
